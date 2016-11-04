@@ -26,7 +26,7 @@
 	 
 	for(i=0;i<256;i++) {
 		t[i][0] = matrixmult(s[i], 2);
-		printf("\n%d\n", t[i][0]);
+		printf("\n%03d | %03d\n", i, t[i][0]);
 	}
 	
 	return(0);
