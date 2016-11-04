@@ -110,30 +110,3 @@ uint32_t rotl32 (uint32_t value, unsigned int count) {
     count &= mask;
     return (value<<count) | (value>>( (-count) & mask ));
 }
-  
-uint8_t gfmult(uint8_t a, uint8_t b) {
-	uint8_t result;
-	
-	result = 0;
-	
-	if(b == 3){
-		if(a<128){
-			result = (a << 1);
-		} else {
-			result = ((a-128) << 1)^(0x1B);
-		}
-		result = result ^ a;
-	} else if(b==2) {
-		if(a<128){
-			result = (a << 1);
-		} else {
-			result = ((a-128) << 1)^(0x1B);
-		}
-	} else if(b==1) {
-		result = a;
-	} else {
-		result = 0;
-	}
-	
-	return(result);
-}
