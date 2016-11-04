@@ -4,7 +4,8 @@
  
  int main() {
 	int i;
-	unsigned int t[256][4];
+	unsigned int tdev[256][4];
+	unsigned long t[256];
 	unsigned int s[256] = {
     0x63, 0x7C, 0x77, 0x7B, 0xF2, 0x6B, 0x6F, 0xC5, 0x30, 0x01, 0x67, 0x2B, 0xFE, 0xD7, 0xAB, 0x76,
     0xCA, 0x82, 0xC9, 0x7D, 0xFA, 0x59, 0x47, 0xF0, 0xAD, 0xD4, 0xA2, 0xAF, 0x9C, 0xA4, 0x72, 0xC0,
@@ -27,11 +28,13 @@
 	printf("\n\n");
 	 
 	for(i=0;i<256;i++) {
-		t[i][0] = matrixmult(s[i], 2);
-		t[i][1] = matrixmult(s[i], 1);
-		t[i][2] = matrixmult(s[i], 1);
-		t[i][3] = matrixmult(s[i], 3);
-		printf("\n%03d | %03d  %03d  %03d  %03d", i, t[i][0], t[i][1], t[i][2], t[i][3]);
+		tdev[i][0] = matrixmult(s[i], 2);
+		tdev[i][1] = matrixmult(s[i], 1);
+		tdev[i][2] = matrixmult(s[i], 1);
+		tdev[i][3] = matrixmult(s[i], 3);
+		t[i] = 0;
+		t[i] = tdev[i][0] << 24 ^ tdev[i][1] << 16 ^ tdev[i][2] << 8 ^ tdev[i][3];
+		printf("\n%03d | %08X", i, t[i]);
 	}
 	printf("\n\n");
 	
