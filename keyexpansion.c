@@ -72,9 +72,10 @@
 		tempsb = temp >> 16;
 		tempsc = temp >> 8;
 		
-		printf("\n tempsa:    0x%02X", tempsa);
-		printf("\n tempsb:    0x%02X", tempsb);
-		printf("\n tempsc:    0x%02X", tempsc);
+		printf("\n tempsa:    0x%02X", s[tempsa]);
+		printf("\n tempsb:    0x%02X", s[tempsb]);
+		printf("\n tempsc:    0x%02X", s[tempsc]);
+		printf("\n tempsd:    0x%02X", s[(uint8_t) temp]);
 		
 		temp = ((((uint32_t)s[tempsa])<<24) ^ (((uint32_t)s[tempsb])<<16) ^ (((uint32_t)s[tempsc])<<8) ^ (uint32_t)s[((uint8_t)temp)]) ^ temp;
 		
