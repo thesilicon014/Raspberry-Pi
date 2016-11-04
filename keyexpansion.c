@@ -63,27 +63,28 @@
 	for(i = 1; i < 7; i++) {
 		expanded[8*i] = schedule_core(expanded[8*i-1], i, s, rcon) ^ expanded[8*i - n]; // Create the first 4-byte block
 		
-		expanded[8*i + 1] = expanded[8*i] ^ expanded[(8*i - n) + 1];
+		expanded[8*i + 1] = expanded[8*i] ^ expanded[(8*i - n) + 1]; // Create blocks 2-4
 		expanded[8*i + 2] = expanded[8*i+1] ^ expanded[(8*i - n) + 2];
 		expanded[8*i + 3] = expanded[8*i+2] ^ expanded[(8*i - n) + 3];
 		
-		temp = expanded[8*i + 3];
+		temp = expanded[8*i + 3]; // Data needed for block 5
 		tempsa = temp >> 24;
 		tempsb = temp >> 16;
 		tempsc = temp >> 8;
 		
-		printf("\n tempsa:    0x%02X", s[tempsa]);
-		printf("\n tempsb:    0x%02X", s[tempsb]);
-		printf("\n tempsc:    0x%02X", s[tempsc]);
-		printf("\n tempsd:    0x%02X", s[(uint8_t) temp]);
-		
+		//Block 5 below
 		temp = ((((uint32_t)s[tempsa])<<24) ^ (((uint32_t)s[tempsb])<<16) ^ (((uint32_t)s[tempsc])<<8) ^ (uint32_t)s[((uint8_t)temp)]) ^ expanded[(8*i - n) + 4];
 		
-		expanded[8*i + 4] = temp;
-		expanded[8*i + 5] = expanded[8*i+4] ^ expanded[(8*i - n) + 5];
-		expanded[8*i + 6] = expanded[8*i+5] ^ expanded[(8*i - n) + 6];
-		expanded[8*i + 7] = expanded[8*i+6] ^ expanded[(8*i - n) + 7];
+		expanded[8*i + 4] = temp; // Assign block 5
+		expanded[8*i + 5] = expanded[8*i+4] ^ expanded[(8*i - n) + 5]; // Block 6
+		expanded[8*i + 6] = expanded[8*i+5] ^ expanded[(8*i - n) + 6]; // Block 7
+		expanded[8*i + 7] = expanded[8*i+6] ^ expanded[(8*i - n) + 7]; // Block 8
 	}
+	expanded[8*i] = schedule_core(expanded[8*i-1], i, s, rcon) ^ expanded[8*i - n]; // Create the first 4-byte block
+		
+	expanded[8*i + 1] = expanded[8*i] ^ expanded[(8*i - n) + 1]; // Create blocks 2-4
+	expanded[8*i + 2] = expanded[8*i+1] ^ expanded[(8*i - n) + 2];
+	expanded[8*i + 3] = expanded[8*i+2] ^ expanded[(8*i - n) + 3];
 	
 	printf("\n\n\n");
 	
