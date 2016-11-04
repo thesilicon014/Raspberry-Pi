@@ -48,6 +48,8 @@
 	
 	lol = schedule_core(0x88845888, 2, s, rcon);
 	
+	printf("\n\n  0x%08X\n\n", lol);
+	
 	return(0);
  }
  
