@@ -168,7 +168,7 @@ int main() {
 	uint32_t temp;
 	uint32_t state_array[4] = {0,0,0,0};
 	uint32_t key[8] = {0,0,0,0,0,0,0,0};
-	uint32_t expandedkey = expand_key(key);
+	uint32_t * expandedkey = expand_key(key);
 	
 	state_array[0] = state_array[0]^expandedkey[0];
 	state_array[1] = state_array[1]^expandedkey[1];
