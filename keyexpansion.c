@@ -77,7 +77,7 @@
 		printf("\n tempsc:    0x%02X", s[tempsc]);
 		printf("\n tempsd:    0x%02X", s[(uint8_t) temp]);
 		
-		temp = ((((uint32_t)s[tempsa])<<24) ^ (((uint32_t)s[tempsb])<<16) ^ (((uint32_t)s[tempsc])<<8) ^ (uint32_t)s[((uint8_t)temp)]) ^ temp;
+		temp = ((((uint32_t)s[tempsa])<<24) ^ (((uint32_t)s[tempsb])<<16) ^ (((uint32_t)s[tempsc])<<8) ^ (uint32_t)s[((uint8_t)temp)]) ^ expanded[(8*i - n) + 4];
 		
 		expanded[8*i + 4] = temp;
 		expanded[8*i + 5] = expanded[8*i+4] ^ expanded[(8*i - n) + 5];
