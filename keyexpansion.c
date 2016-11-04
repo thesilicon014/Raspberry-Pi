@@ -3,11 +3,10 @@
  #include <limits.h>  // for CHAR_BIT
  
  uint8_t matrixmult(uint8_t, uint8_t);
- uint32_t schedule_core(uint32_t, int, uint8_t*, uint8_t*);
+ uint32_t schedule_core(uint32_t, uint8_t, uint8_t*, uint8_t*);
  uint32_t rotl32 (uint32_t, unsigned int);
  
  int main() {
-	int i;
 	uint8_t s[256] = {
     0x63, 0x7C, 0x77, 0x7B, 0xF2, 0x6B, 0x6F, 0xC5, 0x30, 0x01, 0x67, 0x2B, 0xFE, 0xD7, 0xAB, 0x76,
     0xCA, 0x82, 0xC9, 0x7D, 0xFA, 0x59, 0x47, 0xF0, 0xAD, 0xD4, 0xA2, 0xAF, 0x9C, 0xA4, 0x72, 0xC0,
@@ -44,18 +43,50 @@
     0xc6, 0x97, 0x35, 0x6a, 0xd4, 0xb3, 0x7d, 0xfa, 0xef, 0xc5, 0x91, 0x39, 0x72, 0xe4, 0xd3, 0xbd, 
     0x61, 0xc2, 0x9f, 0x25, 0x4a, 0x94, 0x33, 0x66, 0xcc, 0x83, 0x1d, 0x3a, 0x74, 0xe8, 0xcb, 0x8d };
 	
-	uint32_t lol;
+	uint8_t i, n, b, iteration;
+	uint32_t key[8] = {0x73d42719, 0x7fb42320, 0x2a1d263b, 0x1e7fb9da, 0x37df726e, 0xbc6b4738, 0xef2fa5b5, 0x6bbc4c7e };
+	uint32_t expanded[60] = {0};
+	uint32_t temp;
+	//schedule_core(0x88845888, 2, s, rcon);
+	n = 8;
+	b = 60;
 	
-	lol = schedule_core(0x88845888, 2, s, rcon);
+	expanded[0] = key[0];
+	expanded[1] = key[1];
+	expanded[2] = key[2];
+	expanded[3] = key[3];
+	expanded[4] = key[4];
+	expanded[5] = key[5];
+	expanded[6] = key[6];
+	expanded[7] = key[7];
 	
-	printf("\n\n  0x%08X\n\n", lol);
+	for(i = 1; i < 7; i++) {
+		expanded[8*i] = schedule_core(expanded[8*i-1], i, s, rcon) ^ expanded[8*i - n]; // Create the first 4-byte block
+		
+		expanded[8*i + 1] = expanded[8*i] ^ expanded[(8*i - n) + 1];
+		expanded[8*i + 2] = expanded[8*i+1] ^ expanded[(8*i - n) + 2];
+		expanded[8*i + 3] = expanded[8*i+2] ^ expanded[(8*i - n) + 3];
+		
+		expanded[8*i + 4] = ((((uint32_t)s[(uint8_t)expanded[8*i + 3]>>24])<<24) ^ (((uint32_t)s[(uint8_t)expanded[8*i + 3]>>16])<<16) ^ (((uint32_t)s[(uint8_t)expanded[8*i + 3]>>8])<<8) ^ (uint32_t)s[(uint8_t)expanded[8*i + 3]]) ^ expanded[8*i + 3];
+		
+		expanded[8*i + 5] = expanded[8*i+4] ^ expanded[(8*i - n) + 5];
+		expanded[8*i + 6] = expanded[8*i+5] ^ expanded[(8*i - n) + 6];
+		expanded[8*i + 7] = expanded[8*i+6] ^ expanded[(8*i - n) + 7];
+	}
+	
+	printf("\n\n\n");
+	
+	for(i=0; i<60; i++) {
+		printf("\n  0x%08X", expanded[i]);
+	}
+	
+	printf("\n\n\n");
 	
 	return(0);
  }
  
-uint32_t schedule_core(uint32_t input, int i, uint8_t* s, uint8_t* rcon) {
+uint32_t schedule_core(uint32_t input, uint8_t i, uint8_t* s, uint8_t* rcon) {
 	uint32_t output;
-	
 	output = rotl32(input, 8);
 	output = (uint32_t)(s[(uint8_t)(output >> 24)] << 24) ^ (uint32_t)(s[(uint8_t)(output >> 16)] << 16) ^ (uint32_t)(s[(uint8_t)(output >> 8)] << 8) ^ (uint32_t)s[(uint8_t) output];
 	output = output ^ (((uint32_t)rcon[i]) << 24);
