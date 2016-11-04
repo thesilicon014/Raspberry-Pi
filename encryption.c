@@ -2,7 +2,7 @@
 #include <stdint.h>
 #include <limits.h>
 
-uint32_t * expand_key(uint32_t *); // Need 32-byte key, so an array of 8 uint32 chunks.
+uint32_t * expand_key(uint32_t *, uint32_t *); // Need 32-byte key, so an array of 8 uint32 chunks.
 uint32_t schedule_core(uint32_t, uint8_t, uint8_t*, uint8_t*);
 uint32_t rotl32 (uint32_t, unsigned int);
 
@@ -163,12 +163,14 @@ uint32_t t3[256] = {
 	0x4141C382,0x9999B029,0x2D2D775A,0x0F0F111E,0xB0B0CB7B,0x5454FCA8,0xBBBBD66D,0x16163A2C };
 
 int main() {
-	uint8_t round;
+	uint8_t round, tempsa, tempsb, tempsc;
 	uint8_t oper1, oper2, oper3, oper4, oper5, oper6, oper7, oper8, oper9, oper10, oper11, oper12, oper13, oper14, oper15, oper16;
 	uint32_t temp;
 	uint32_t state_array[4] = {0,0,0,0};
 	uint32_t key[8] = {0,0,0,0,0,0,0,0};
-	uint32_t * expandedkey = expand_key(key);
+	uint32_t * expandedkey;
+	
+	expandedkey = expand_key(key, &expandedkey);
 	
 	state_array[0] = state_array[0]^expandedkey[0];
 	state_array[1] = state_array[1]^expandedkey[1];
@@ -245,12 +247,10 @@ int main() {
 	return(0);
 }
 
-uint32_t * expand_key(uint32_t * key) {
+uint32_t * expand_key(uint32_t * key, uint32_t * expanded) {
 	uint8_t i, tempsa, tempsb, tempsc;
 	uint8_t n = 8;
-	uint32_t expanded[60] = {0};
 	uint32_t temp;
-	 
 	
 	expanded[0] = key[0];
 	expanded[1] = key[1];
