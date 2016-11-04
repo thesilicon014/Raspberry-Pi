@@ -37,8 +37,8 @@
 		tdev[i][3] = matrixmult(s[i], 3);
 		t[i] = 0;
 		t[i] = tdev[i][0] << 24 ^ tdev[i][1] << 16 ^ tdev[i][2] << 8 ^ tdev[i][3];
-		fprintf(fp,"%08X,", t[i]);
-		printf("\n%03d | %08X", i, t[i]);
+		fprintf(fp,"0x%08X,", t[i]);
+		printf("\n%03d | 0x%08X", i, t[i]);
 	}
 	printf("\n\n");
 	
