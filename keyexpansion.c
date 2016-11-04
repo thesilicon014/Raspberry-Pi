@@ -69,7 +69,7 @@
 		
 		temp = expanded[8*i + 3];
 		
-		temp = ((((uint32_t)s[(uint8_t)temp>>24])<<24) ^ (((uint32_t)s[(uint8_t)temp>>16])<<16) ^ (((uint32_t)s[(uint8_t)temp>>8])<<8) ^ (uint32_t)s[(uint8_t)temp]) ^ temp;
+		temp = ((((uint32_t)s[temp>>24])<<24) ^ (((uint32_t)s[temp>>16])<<16) ^ (((uint32_t)s[temp>>8])<<8) ^ (uint32_t)s[temp]) ^ temp;
 		
 		printf("\n     0x%02X\n", (uint8_t)temp>>24);
 		
