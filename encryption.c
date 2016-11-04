@@ -247,7 +247,7 @@ int main() {
 	return(0);
 }
 
-uint32_t * expand_key(uint32_t * key, uint32_t * expanded) {
+uint32_t * expand_key(uint32_t * key[8], uint32_t * expanded[60]) {
 	uint8_t i, tempsa, tempsb, tempsc;
 	uint8_t n = 8;
 	uint32_t temp;
