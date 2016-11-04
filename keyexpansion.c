@@ -43,7 +43,7 @@
     0xc6, 0x97, 0x35, 0x6a, 0xd4, 0xb3, 0x7d, 0xfa, 0xef, 0xc5, 0x91, 0x39, 0x72, 0xe4, 0xd3, 0xbd, 
     0x61, 0xc2, 0x9f, 0x25, 0x4a, 0x94, 0x33, 0x66, 0xcc, 0x83, 0x1d, 0x3a, 0x74, 0xe8, 0xcb, 0x8d };
 	
-	uint8_t i, n, b, iteration;
+	uint8_t i, n, b, tempsa, tempsb, tempsc;
 	uint32_t key[8] = {0, 0, 0, 0, 0, 0, 0, 0};
 	uint32_t expanded[60] = {0};
 	uint32_t temp;
@@ -68,10 +68,15 @@
 		expanded[8*i + 3] = expanded[8*i+2] ^ expanded[(8*i - n) + 3];
 		
 		temp = expanded[8*i + 3];
+		tempsa = temp >> 24;
+		tempsb = temp >> 16;
+		tempsc = temp >> 8;
+		
+		printf("\n tempsa:    0x%02X", tempsa);
+		printf("\n tempsb:    0x%02X", tempsb);
+		printf("\n tempsc:    0x%02X", tempsc);
 		
 		temp = ((((uint32_t)s[temp>>24])<<24) ^ (((uint32_t)s[temp>>16])<<16) ^ (((uint32_t)s[temp>>8])<<8) ^ (uint32_t)s[temp]) ^ temp;
-		
-		printf("\n     0x%02X\n", (uint8_t)temp>>24);
 		
 		expanded[8*i + 4] = temp;
 		expanded[8*i + 5] = expanded[8*i+4] ^ expanded[(8*i - n) + 5];
