@@ -67,7 +67,9 @@
 		expanded[8*i + 2] = expanded[8*i+1] ^ expanded[(8*i - n) + 2];
 		expanded[8*i + 3] = expanded[8*i+2] ^ expanded[(8*i - n) + 3];
 		
-		expanded[8*i + 4] = ((((uint32_t)s[(uint8_t)expanded[8*i + 3]>>24])<<24) ^ (((uint32_t)s[(uint8_t)expanded[8*i + 3]>>16])<<16) ^ (((uint32_t)s[(uint8_t)expanded[8*i + 3]>>8])<<8) ^ (uint32_t)s[(uint8_t)expanded[8*i + 3]]) ^ expanded[8*i + 3];
+		temp = expanded[8*i + 3];
+		
+		expanded[8*i + 4] = ((((uint32_t)s[(uint8_t)temp>>24])<<24) ^ (((uint32_t)s[(uint8_t)temp>>16])<<16) ^ (((uint32_t)s[(uint8_t)temp>>8])<<8) ^ (uint32_t)s[(uint8_t)temp]) ^ temp;
 		
 		expanded[8*i + 5] = expanded[8*i+4] ^ expanded[(8*i - n) + 5];
 		expanded[8*i + 6] = expanded[8*i+5] ^ expanded[(8*i - n) + 6];
