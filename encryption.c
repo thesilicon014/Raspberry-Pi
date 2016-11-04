@@ -166,7 +166,7 @@ int main() {
 	uint8_t round, tempsa, tempsb, tempsc;
 	uint8_t oper1, oper2, oper3, oper4, oper5, oper6, oper7, oper8, oper9, oper10, oper11, oper12, oper13, oper14, oper15, oper16;
 	uint32_t temp;
-	uint32_t state_array[4] = {0,0,0,0};
+	uint32_t state_array[4] = {0x80000000,0x00000000,0x00000000,0x00000000};
 	uint32_t key[8] = {0,0,0,0,0,0,0,0};
 	uint32_t * expandedkey;
 	
