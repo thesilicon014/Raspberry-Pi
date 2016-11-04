@@ -2,7 +2,7 @@
 #include <stdint.h>
 #include <limits.h>
 
-uint32_t * expand_key(uint32_t *, uint32_t *); // Need 32-byte key, so an array of 8 uint32 chunks.
+uint32_t * expand_key(uint32_t *); // Need 32-byte key, so an array of 8 uint32 chunks.
 uint32_t schedule_core(uint32_t, uint8_t, uint8_t*, uint8_t*);
 uint32_t rotl32 (uint32_t, unsigned int);
 
@@ -170,7 +170,7 @@ int main() {
 	uint32_t key[8] = {0,0,0,0,0,0,0,0};
 	uint32_t * expandedkey;
 	
-	expandedkey = expand_key(key, expandedkey);
+	expandedkey = expand_key(key);
 	
 	state_array[0] = state_array[0]^expandedkey[0];
 	state_array[1] = state_array[1]^expandedkey[1];
@@ -247,10 +247,11 @@ int main() {
 	return(0);
 }
 
-uint32_t * expand_key(uint32_t * key[8], uint32_t * expanded[60]) {
+uint32_t * expand_key(uint32_t * key) {
 	uint8_t i, tempsa, tempsb, tempsc;
 	uint8_t n = 8;
 	uint32_t temp;
+	static uint32_t expanded[60];
 	
 	expanded[0] = key[0];
 	expanded[1] = key[1];
