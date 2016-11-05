@@ -54,10 +54,13 @@ int main( int argc, char *argv[] ) {
 		exit(EXIT_FAILURE);
 	}
 	
+	fread(&key, sizeof(temp), 8, raw_key);
+		
 	for(i=0; i < 8; i++) {
-		key[i] = fread(&temp, sizeof(temp), 1, raw_key);
 		printf("\nkey[%d] = 0x%08X\n", i, key[i]);
 	}
+	
+	fclose(raw_key);
 	
 	expanded[0] = key[0];
 	expanded[1] = key[1];
