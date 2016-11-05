@@ -9,11 +9,9 @@ int main() {
 	uint8_t count; 
 	FILE *key_ptr;
 	
-	key_ptr = fopen("/home/pi/development/Raspberry-Pi", "w+b");
+	key_ptr = fopen("/home/pi/development/Raspberry-Pi/key.bin", "w+b");
 	
-	for(count=0; count<8; count++) {
-		fwrite(key, sizeof(key[0]*8), 1, key_ptr);
-	}
+	fwrite(key, 4, 8, key_ptr);
 	
 	fclose(key_ptr);
 	
