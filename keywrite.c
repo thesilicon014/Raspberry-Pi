@@ -1,6 +1,5 @@
 #include <stdio.h>
 #include <stdint.h>
-#include <string.h>
 #include <error.h>
 #include <stdlib.h>
 
@@ -22,7 +21,7 @@ int main( int argc, char *argv[] ) {
 		exit(EXIT_FAILURE);
 	}
 	
-	key_ptr = fopen(strcat("$KEY/", argv[1]), "w+b");
+	key_ptr = fopen((argv[1], "w+b");
 	
 	fwrite(key, 4, 8, key_ptr);
 	
