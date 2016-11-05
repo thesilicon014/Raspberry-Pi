@@ -2,6 +2,7 @@
 #include <stdint.h>  // for uint32_t, to get 32bit-wide rotates, regardless of the size of int.
 #include <limits.h>  // for CHAR_BIT
 #include <errno.h>
+#include <stdlib.h>
 
 #define ARGCOUNT 1000
 
@@ -38,7 +39,7 @@ int main( int argc, char *argv[] ) {
 	if(argc != 3) {
 		errno = ARGCOUNT;
 		perror("Command line argument error;");
-		fprintf("Error 'argcount': %d\n\n", errno);
+		fprintf(stderr, "Error 'argcount': %d\n\n", errno);
 		exit(EXIT_FAILURE);
 	}
 	
