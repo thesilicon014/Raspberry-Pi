@@ -1,11 +1,16 @@
 #include <stdio.h>
 #include <stdint.h>  // for uint32_t, to get 32bit-wide rotates, regardless of the size of int.
 #include <limits.h>  // for CHAR_BIT
- 
+#include <errno.h>
+
+#define ARGCOUNT 1000
+
+extern int errno;
+
 uint32_t schedule_core(uint32_t, uint8_t, uint8_t*, uint8_t*);
 uint32_t rotl32 (uint32_t, unsigned int);
  
-int main() {
+int main( int argc, char *argv[] ) {
 	uint8_t s[256] = {
     0x63, 0x7C, 0x77, 0x7B, 0xF2, 0x6B, 0x6F, 0xC5, 0x30, 0x01, 0x67, 0x2B, 0xFE, 0xD7, 0xAB, 0x76,
     0xCA, 0x82, 0xC9, 0x7D, 0xFA, 0x59, 0x47, 0xF0, 0xAD, 0xD4, 0xA2, 0xAF, 0x9C, 0xA4, 0x72, 0xC0,
@@ -24,15 +29,18 @@ int main() {
     0xE1, 0xF8, 0x98, 0x11, 0x69, 0xD9, 0x8E, 0x94, 0x9B, 0x1E, 0x87, 0xE9, 0xCE, 0x55, 0x28, 0xDF,
     0x8C, 0xA1, 0x89, 0x0D, 0xBF, 0xE6, 0x42, 0x68, 0x41, 0x99, 0x2D, 0x0F, 0xB0, 0x54, 0xBB, 0x16 };
 	
-	uint8_t rcon[8] = {
-    0x8d, 0x01, 0x02, 0x04, 0x08, 0x10, 0x20, 0x40 };
-	
+	uint8_t rcon[8] = { 0x8d, 0x01, 0x02, 0x04, 0x08, 0x10, 0x20, 0x40 };
 	uint8_t i, tempsa, tempsb, tempsc;
 	uint8_t n = 8;
-	uint32_t key[8] = {0, 0, 0, 0, 0, 0, 0, 0};
-	uint32_t expanded[60] = {0};
 	uint32_t temp;
-	 
+	static uint32_t expanded[60];
+	
+	if(argc != 3) {
+		errno = ARGCOUNT;
+		perror("Command line argument error;");
+		fprintf("Error 'argcount': %d\n\n", ARGCOUNT);
+		exit(EXIT_FAILURE);
+	}
 	
 	expanded[0] = key[0];
 	expanded[1] = key[1];
@@ -69,7 +77,9 @@ int main() {
 	expanded[8*i + 2] = expanded[8*i+1] ^ expanded[(8*i - n) + 2];
 	expanded[8*i + 3] = expanded[8*i+2] ^ expanded[(8*i - n) + 3];
 	
-	return(0);
+	// 'i' becomes a writing incrementer to a binary file
+	
+	exit(EXIT_SUCCESS);
 }
  
 uint32_t schedule_core(uint32_t input, uint8_t i, uint8_t* s, uint8_t* rcon) {
@@ -86,3 +96,34 @@ uint32_t rotl32 (uint32_t value, unsigned int count) {
     count &= mask;
     return (value<<count) | (value>>( (-count) & mask ));
 }
+
+/*
+	#include<stdio.h>
+
+	struct rec
+	{
+		int x,y,z;
+	};
+
+	int main()
+	{
+		int counter;
+		FILE *ptr_myfile;
+		struct rec my_record;
+
+		ptr_myfile=fopen("test.bin","wb");
+		if (!ptr_myfile)
+		{
+			printf("Unable to open file!");
+			return 1;
+		}
+		for ( counter=1; counter <= 10; counter++)
+		{
+			my_record.x= counter;
+			fwrite(&my_record, sizeof(struct rec), 1, ptr_myfile);
+		}
+		fclose(ptr_myfile);
+		return 0;
+	}
+	
+*/
