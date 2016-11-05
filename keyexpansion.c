@@ -38,7 +38,7 @@ int main( int argc, char *argv[] ) {
 	if(argc != 3) {
 		errno = ARGCOUNT;
 		perror("Command line argument error;");
-		fprintf("Error 'argcount': %d\n\n", ARGCOUNT);
+		fprintf("Error 'argcount': %d\n\n", errno);
 		exit(EXIT_FAILURE);
 	}
 	
