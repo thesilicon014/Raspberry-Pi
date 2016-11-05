@@ -35,12 +35,28 @@ int main( int argc, char *argv[] ) {
 	uint8_t n = 8;
 	uint32_t temp;
 	static uint32_t expanded[60];
+	static uint32_t key[8];
+	
+	FILE *raw_key
+	FILE *expanded_key
 	
 	if(argc != 3) {
 		errno = ARGCOUNT;
 		perror("Command line argument error;");
 		fprintf(stderr, "Error 'argcount': %d\n\n", errno);
 		exit(EXIT_FAILURE);
+	}
+	
+	
+	raw_key = fopen(argv[1],"rb");
+	if (raw_key == NULL) {
+		fprintf(stderr, "Can't open output file %s!\n", argv[1]);
+		exit(EXIT_FAILURE);
+	}
+	
+	for(i=0; i < 8; i++) {
+		key[i] = fread(&temp, sizeof(temp), 1, raw_key);
+		printf("\nkey[%d] = 0x%08X\n", i, key[i]);
 	}
 	
 	expanded[0] = key[0];
@@ -100,18 +116,15 @@ uint32_t rotl32 (uint32_t value, unsigned int count) {
 
 /*
 	#include<stdio.h>
-
 	struct rec
 	{
 		int x,y,z;
 	};
-
 	int main()
 	{
 		int counter;
 		FILE *ptr_myfile;
 		struct rec my_record;
-
 		ptr_myfile=fopen("test.bin","wb");
 		if (!ptr_myfile)
 		{
