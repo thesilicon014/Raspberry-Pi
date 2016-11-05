@@ -2,6 +2,7 @@
 #include <stdint.h>
 #include <string.h>
 #include <error.h>
+#include <stdlib.h>
 
 #define ARGCOUNT 1000
 
