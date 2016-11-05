@@ -37,8 +37,8 @@ int main( int argc, char *argv[] ) {
 	static uint32_t expanded[60];
 	static uint32_t key[8];
 	
-	FILE *raw_key
-	FILE *expanded_key
+	FILE *raw_key;
+	FILE *expanded_key;
 	
 	if(argc != 3) {
 		errno = ARGCOUNT;
