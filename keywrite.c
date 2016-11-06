@@ -1,12 +1,7 @@
 #include <stdio.h>
 #include <stdint.h>
-#include <error.h>
 #include <stdlib.h>
 #include <string.h>
-
-#define ARGCOUNT 1000
-
-extern int errno;
 
 int main( int argc, char *argv[] ) {
 	uint32_t key[8] = {
@@ -15,13 +10,6 @@ int main( int argc, char *argv[] ) {
 	
 	FILE *key_ptr;
 	char address[80];
-	
-	if(argc != 2) {
-		errno = ARGCOUNT;
-		perror("Command line argument error;");
-		fprintf(stderr, "Error 'argcount': %d\n\n", errno);
-		exit(EXIT_FAILURE);
-	}
 	
 	sprintf(address, "$KEY/%s", argv[1])
 	
