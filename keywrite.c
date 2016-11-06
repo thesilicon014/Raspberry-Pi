@@ -2,6 +2,7 @@
 #include <stdint.h>
 #include <error.h>
 #include <stdlib.h>
+#include <string.h>
 
 #define ARGCOUNT 1000
 
@@ -13,6 +14,7 @@ int main( int argc, char *argv[] ) {
 		0xe213b913, 0xeaa13ff9, 0x40762ac2, 0x1eba261f };
 	
 	FILE *key_ptr;
+	char address[80];
 	
 	if(argc != 2) {
 		errno = ARGCOUNT;
@@ -21,7 +23,9 @@ int main( int argc, char *argv[] ) {
 		exit(EXIT_FAILURE);
 	}
 	
-	key_ptr = fopen(argv[1], "w+b");
+	sprintf(address, "$KEY/%s", argv[1])
+	
+	key_ptr = fopen(address, "w+b");
 	
 	fwrite(key, 4, 8, key_ptr);
 	
