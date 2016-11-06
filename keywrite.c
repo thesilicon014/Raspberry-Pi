@@ -21,7 +21,7 @@ int main( int argc, char *argv[] ) {
 		exit(EXIT_FAILURE);
 	}
 	
-	key_ptr = fopen((argv[1], "w+b");
+	key_ptr = fopen(argv[1], "w+b");
 	
 	fwrite(key, 4, 8, key_ptr);
 	
